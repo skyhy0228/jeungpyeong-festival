@@ -1,0 +1,381 @@
+/* 기본 리셋 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Malgun Gothic', sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* 헤더 스타일 */
+header {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 100;
+}
+
+header .logo {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #3867d6;
+}
+
+header nav a {
+    text-decoration: none;
+    color: #57606f;
+    margin-left: 20px;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+header nav a:hover {
+    color: #3867d6;
+}
+
+/* 메인 비주얼 (Hero 섹션) */
+.hero {
+    background-color: #1f2d5c;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.58)), url('festival-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+}
+
+.hero-content .campus {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: #45aaf2;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+.hero-content .slogan {
+    font-size: 1.1rem;
+    color: #d1d8e0;
+    margin-bottom: 30px;
+}
+
+/* 안내 상자 */
+.info-box {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px 40px;
+    border-radius: 15px;
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 30px;
+    backdrop-filter: blur(5px);
+}
+
+.info-box p {
+    margin: 8px 0;
+    font-size: 1.1rem;
+}
+
+.info-box strong {
+    color: #45aaf2;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #3867d6;
+    color: white;
+    padding: 12px 35px;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(56, 103, 214, 0.4);
+}
+
+.btn:hover {
+    background-color: #4b7bec;
+    transform: translateY(-2px);
+}
+
+/* 공통 섹션 스타일 */
+.content-section {
+    padding: 80px 10%;
+    text-align: center;
+}
+
+.content-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: #2f3542;
+    position: relative;
+    display: inline-block;
+}
+
+.content-section h2::after {
+    content: '';
+    display: block;
+    width: 50%;
+    height: 4px;
+    background-color: #3867d6;
+    margin: 10px auto 0 auto;
+    border-radius: 2px;
+}
+
+.content-section p {
+    color: #747d8c;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+/* 라인업 커밍순 박스 */
+.coming-soon {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    display: inline-block;
+}
+
+.coming-soon p {
+    font-size: 1.3rem;
+    color: #2f3542;
+    font-weight: bold;
+}
+
+.coming-soon span {
+    color: #a5b1c2;
+    font-size: 0.95rem;
+}
+
+/* 푸터 */
+footer {
+    background-color: #2f3542;
+    color: #a5b1c2;
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 0.9rem;
+    border-top: 1px solid #353b48;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+/* 타임테이블 스타일 */
+.timetable-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 20px;
+    text-align: left;
+    flex-wrap: wrap;
+}
+
+.day-box {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.day-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #3867d6;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #3867d6;
+    padding-bottom: 10px;
+}
+
+.timeline {
+    position: relative;
+    border-left: 2px solid #e1e8ed;
+    padding-left: 20px;
+    margin-left: 10px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #a5b1c2;
+    border: 2px solid white;
+}
+
+/* 주요 일정 하이라이트 효과 */
+.timeline-item.highlight::before {
+    background-color: #ff4757;
+}
+
+.timeline-item.main-event::before {
+    background-color: #3867d6;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.time {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #747d8c;
+    margin-bottom: 3px;
+}
+
+.timeline-item.highlight .time {
+    color: #ff4757;
+}
+
+.timeline-item.main-event .time {
+    color: #3867d6;
+}
+
+.event strong {
+    font-size: 1.1rem;
+    color: #2f3542;
+    display: block;
+}
+
+.event p {
+    font-size: 0.95rem;
+    color: #747d8c;
+    margin: 0 !important;
+    text-align: left !important;
+}
+
+/* 작게 표시되는 설명 글씨 */
+.sub-text {
+    font-size: 0.85rem;
+    color: #95a5a6;
+    display: block;
+    margin-top: 2px;
+}
+
+.highlight-text {
+    font-weight: bold;
+    color: #3867d6 !important;
+}
+
+/* 모바일 접속 최적화 */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px 5%;
+    }
+
+    header nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px 14px;
+    }
+
+    header nav a {
+        margin-left: 0;
+        font-size: 0.92rem;
+    }
+
+    .hero {
+        min-height: 90vh;
+        height: auto;
+        padding: 80px 18px 60px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.35rem;
+    }
+
+    .info-box {
+        width: 100%;
+        padding: 18px 20px;
+    }
+
+    .content-section {
+        padding: 60px 6%;
+    }
+}
+
+@media (max-width: 480px) {
+    header .logo {
+        font-size: 0.98rem;
+        text-align: center;
+        line-height: 1.35;
+    }
+
+    header nav a {
+        font-size: 0.88rem;
+    }
+
+    .hero {
+        padding: 72px 16px 48px;
+    }
+
+    .hero-content .campus {
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content .slogan,
+    .info-box p,
+    .content-section p {
+        font-size: 1rem;
+    }
+
+    .content-section h2 {
+        font-size: 1.8rem;
+    }
+
+    .timetable-container {
+        flex-direction: column;
+    }
+
+    .day-box {
+        min-width: 0;
+        width: 100%;
+        padding: 24px 20px;
+    }
+
+    .timeline {
+        margin-left: 4px;
+        padding-left: 18px;
+    }
+}
