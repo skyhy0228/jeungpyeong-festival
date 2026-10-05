@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 청아제 PHANTASIA</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            color: #f5f6ff;
+            font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+            background-color: #02040a;
+            background-image:
+                linear-gradient(rgba(0, 3, 12, 0.25), rgba(0, 3, 12, 0.60)),
+                url("제목을 입력해주세요. (25).jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 20%, rgba(0, 0, 0, 0.45) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* [1] 최상단 고정 햄버거 바 스타일 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(0, 3, 12, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .nav-inner {
+            width: min(1100px, calc(100% - 40px));
+            height: 65px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: Georgia, serif;
+            font-size: 16px;
+            letter-spacing: 0.15em;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .hamburger-btn {
+            background: rgba(28, 35, 51, 0.95);
+            border: 1px solid rgba(226, 192, 140, 0.4);
+            color: #e2c08c;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: background 0.2s;
+        }
+
+        .hamburger-btn:hover {
+            background: rgba(226, 192, 140, 0.2);
+        }
+
+        /* [2] 화면 반절을 가리는 사이드 패널 메뉴 스타일 */
+        .side-menu-panel {
+            position: fixed;
+            top: 0;
+            right: -50vw;
+            width: 50vw;
+            height: 100vh;
+            background: rgba(15, 20, 35, 0.98);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(226, 192, 140, 0.2);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.6);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            padding: 80px 30px 40px;
+            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .side-menu-panel {
+                width: 75vw;
+                right: -75vw;
+            }
+        }
+
+        .side-menu-panel.open {
+            right: 0;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1500;
+            display: none;
+        }
+
+        .menu-overlay.open {
+            display: block;
+        }
+
+        .menu-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: none;
+            border: none;
+            color: #e2c08c;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .menu-item-group {
+            margin-bottom: 12px;
+        }
+
+        .menu-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+
+        .menu-link:hover {
+            background: rgba(226, 192, 140, 0.15);
+            color: #e2c08c;
+        }
+
+        .submenu {
+            display: none;
+            flex-direction: column;
+            padding-left: 20px;
+            margin-top: 5px;
+            gap: 4px;
+            border-left: 2px solid rgba(226, 192, 140, 0.3);
+        }
+
+        .submenu.open {
+            display: flex;
+        }
+
+        .submenu a {
+            padding: 8px 12px;
+            color: #abb4c8;
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        .submenu a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* HERO & COMMON SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px 70px;
+        }
+
+        .hero-content {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .festival-small {
+            font-size: 12px;
+            letter-spacing: 0.35em;
+            color: #dce1f4;
+            margin-bottom: 25px;
+        }
+
+        .hero-title-img {
+            width: min(85%, 480px);
+            height: auto;
+            margin: 10px auto;
+            display: block;
+            mix-blend-mode: screen;
+            opacity: 0.92;
+        }
+
+        .date {
+            margin-top: 38px;
+            font-size: 20px;
+            letter-spacing: 0.1em;
+        }
+
+        .place {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #c1c7d9;
+        }
+
+        .host {
+            max-width: 520px;
+            margin: 30px auto 0;
+            padding-top: 22px;
+            border-top: 1px solid rgba(220, 225, 255, 0.3);
+            font-size: 13px;
+            line-height: 1.9;
+            color: #d8dcea;
+        }
+
+        .host strong {
+            color: #ffffff;
+        }
+
+        .scroll {
+            margin-top: 55px;
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            color: #9ea7bd;
+        }
+
+        section {
+            padding: 110px 0;
+        }
+
+        .container {
+            width: min(1100px, calc(100% - 40px));
+            margin: auto;
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.28em;
+            color: #d8ddff;
+        }
+
+        h2 {
+            margin: 10px 0 15px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(40px, 6vw, 68px);
+            font-weight: 400;
+        }
+
+        .section-description {
+            margin: 0;
+            color: #b7bfd2;
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .day-box {
+            margin-top: 40px;
+            border: 1px solid rgba(220, 225, 255, 0.22);
+            border-radius: 30px;
+            background: rgba(2, 7, 20, 0.68);
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+        }
+
+        .day-header {
+            padding: 32px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .day-number {
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: #cdd4ff;
+        }
+
+        .day-header h3 {
+            margin: 10px 0 5px;
+            font-size: 29px;
+        }
+
+        .day-header p {
+            margin: 0;
+            color: #aeb6c9;
+            font-size: 13px;
+        }
+
+        .program {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 25px;
+            padding: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .program:last-child {
+            border-bottom: none;
+        }
+
+        .program-number {
+            color: #dce1f2;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+        }
+
+        .program h4 {
+            margin: 0 0 8px;
+            font-size: 21px;
+        }
+
+        .program p {
+            margin: 0;
+            color: #abb4c8;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .program.hq-highlight {
+            background: rgba(216, 185, 110, 0.07);
+            border-left: 5px solid #e2c08c;
+        }
+
+        .program.hq-highlight .program-number {
+            color: #e2c08c;
+            font-weight: bold;
+        }
+
+        .program.hq-highlight h4 {
+            color: #fff4d4;
+            font-size: 23px;
+        }
+
+        .sub-info-box {
+            margin-top: 15px;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sub-info-box p {
+            margin: 4px 0;
+        }
+
+        .hq-highlight .sub-info-box {
+            background: rgba(226, 192, 140, 0.08);
+            border-color: rgba(226, 192, 140, 0.2);
+        }
+
+        /* 카드 그리드 스타일 통일 */
+        .market-grid {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .market-card {
+            padding: 26px;
+            border: 1px solid rgba(220, 225, 255, 0.2);
+            border-radius: 24px;
+            background: rgba(2, 7, 20, 0.7);
+            backdrop-filter: blur(12px);
+            transition: transform 0.3s, border 0.3s;
+        }
+
+        .market-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(220, 225, 255, 0.4);
+        }
+
+        .department {
+            font-size: 11px;
+            color: #aeb7cb;
+            letter-spacing: 0.05em;
+        }
+
+        .market-card h3 {
+            margin: 9px 0 15px;
+            font-size: 23px;
+            color: #fff4d4;
+        }
+
+        .market-card p {
+            font-size: 13px;
+            color: #abb4c8;
+            line-height: 1.7;
+            margin: 4px 0;
+        }
+
+        /* MAP & GHOST & QA */
+        .map-box {
+            margin-top: 35px;
+            padding: 25px;
+            border: 1px solid rgba(220, 225, 255, 0.25);
+            border-radius: 28px;
+            background: rgba(8, 8, 23, 0.7);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .map-image {
+            width: 65%;
+            height: auto;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .map-image:hover {
+            transform: scale(1.02);
+        }
+
+        .legend-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+            font-size: 14px;
+            color: #dce1f4;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex: 1;
+        }
+
+        /* 배치도 탭 스타일 */
+        .map-tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .map-tab-btn {
+            flex: 1;
+            min-width: 120px;
+            max-width: 220px;
+            padding: 14px;
+            background: rgba(2, 7, 20, 0.7);
+            border: 1px solid rgba(220, 225, 255, 0.2);
+            color: #abb4c8;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .map-tab-btn:hover {
+            border-color: rgba(226, 192, 140, 0.5);
+            color: #fff;
+        }
+
+        .map-tab-btn.active {
+            background: rgba(226, 192, 140, 0.15);
+            border-color: #e2c08c;
+            color: #fff4d4;
+            box-shadow: 0 4px 15px rgba(226, 192, 140, 0.2);
+        }
+
+        .map-content-panel {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .map-content-panel.active {
+            display: block;
+        }
+
+        /* 길찾기 폼 스타일 */
+        .route-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 18px;
+            margin-top: 20px;
+        }
+
+        .route-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .route-input {
+            flex: 1;
+            padding: 12px 16px;
+            background: rgba(2, 7, 20, 0.8);
+            border: 1px solid rgba(220, 225, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .route-input::placeholder {
+            color: #7a849c;
+        }
+
+        .route-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .route-submit-btn {
+            flex: 1;
+            padding: 12px;
+            background: #e2c08c;
+            color: #02040a;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .route-submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .ghost-box {
+            margin-top: 40px;
+            border: 1px solid rgba(220, 225, 255, 0.22);
+            border-radius: 30px;
+            background: rgba(2, 7, 20, 0.68);
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+        }
+
+        .ghost-header {
+            padding: 32px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ghost-number {
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: #ff9e9e;
+            font-weight: bold;
+        }
+
+        .ghost-header h3 {
+            margin: 10px 0 5px;
+            font-size: 29px;
+            color: #fff4d4;
+        }
+
+        .ghost-header p {
+            margin: 0;
+            color: #aeb6c9;
+            font-size: 13px;
+        }
+
+        .ghost-content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .ghost-section-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #ffb4b4;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        .ghost-sub-box {
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .ghost-sub-box p {
+            margin: 6px 0;
+            font-size: 13px;
+            color: #abb4c8;
+            line-height: 1.6;
+        }
+
+        /* 타임테이블 탭 스타일 */
+        .timetable-tabs {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            flex: 1;
+            max-width: 200px;
+            padding: 15px;
+            background: rgba(2, 7, 20, 0.7);
+            border: 1px solid rgba(220, 225, 255, 0.2);
+            color: #abb4c8;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .tab-btn:hover {
+            border-color: rgba(226, 192, 140, 0.5);
+            color: #fff;
+        }
+
+        .tab-btn.active {
+            background: rgba(226, 192, 140, 0.15);
+            border-color: #e2c08c;
+            color: #fff4d4;
+            box-shadow: 0 4px 15px rgba(226, 192, 140, 0.2);
+        }
+
+        .timetable-content-panel {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .timetable-content-panel.active {
+            display: block;
+        }
+
+        .qa-box {
+            margin-top: 30px;
+            padding: 25px;
+            border: 1px solid rgba(220, 225, 255, 0.22);
+            border-radius: 24px;
+            background: rgba(2, 7, 20, 0.68);
+            backdrop-filter: blur(12px);
+        }
+
+        .qa-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .qa-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .qa-q {
+            font-size: 15px;
+            font-weight: bold;
+            color: #e2c08c;
+            margin-bottom: 6px;
+        }
+
+        .qa-a {
+            font-size: 13px;
+            color: #abb4c8;
+            line-height: 1.6;
+        }
+
+        footer {
+            padding: 60px 0 80px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #929caf;
+            font-size: 12px;
+            line-height: 2;
+        }
+
+        @media (max-width: 768px) {
+            .market-grid {
+                grid-template-columns: 1fr;
+            }
+            .map-box {
+                flex-direction: column;
+            }
+            .map-image {
+                width: 100%;
+            }
+            .legend-list {
+                width: 100%;
+            }
+            .program {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                padding: 24px 20px;
+            }
+            .timetable-tabs, .map-tabs {
+                flex-direction: column;
+                max-width: 100%;
+            }
+            .tab-btn, .map-tab-btn {
+                max-width: 100%;
+            }
+        }
+/* [팝업 광고 스타일] */
+        #popupOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .popup-box {
+            position: relative;
+            background: rgba(15, 20, 35, 0.95);
+            border: 1px solid rgba(226, 192, 140, 0.4);
+            border-radius: 20px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .popup-close-x {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #e2c08c;
+            font-size: 26px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            transition: color 0.2s;
+        }
+
+        .popup-close-x:hover {
+            color: #fff;
+        }
+
+        .popup-body {
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+        .popup-img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+        }
+
+        .popup-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .popup-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #dce1f4;
+            cursor: pointer;
+        }
+
+        .popup-checkbox-label input {
+            accent-color: #e2c08c;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+<!-- [학생회비 안내 광고 팝업] -->
+<div id="popupOverlay">
+    <div class="popup-box">
+        <button class="popup-close-x" onclick="closePopup()">×</button>
+        <div class="popup-body">
+            <img src="학생회비.jpg" alt="학생회비 안내" class="popup-img" onclick="openModal(this.src)" title="클릭하면 확대됩니다">
+        </div>
+        <div class="popup-footer">
+            <label class="popup-checkbox-label">
+                <input type="checkbox" id="todayCloseCheck"> 오늘 하루 안 보기
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- 화면 반절을 덮는 오버레이 -->
+<div id="menuOverlay" class="menu-overlay" onclick="toggleMenu()"></div>
+
+<!-- [반절 크기 사이드 햄버거 메뉴 패널] -->
+<div id="sideMenuPanel" class="side-menu-panel">
+    <button class="menu-close-btn" onclick="toggleMenu()">✕</button>
+    
+    <!-- 1일차 하위 메뉴 -->
+    <div class="menu-item-group">
+        <a class="menu-link" onclick="toggleSubmenu('day1Sub')">
+            <span>1일차</span>
+            <span>▼</span>
+        </a>
+        <div id="day1Sub" class="submenu">
+            <a href="#day1" onclick="toggleMenu()">1일차 메인</a>
+            <a href="#market" onclick="toggleMenu()">야시장</a>
+            <a href="#ghost" onclick="toggleMenu()">귀신의 집</a>
+        </div>
+    </div>
+
+    <!-- 2일차 하위 메뉴 -->
+    <div class="menu-item-group">
+        <a class="menu-link" onclick="toggleSubmenu('day2Sub')">
+            <span>2일차</span>
+            <span>▼</span>
+        </a>
+        <div id="day2Sub" class="submenu">
+            <a href="#day2" onclick="toggleMenu()">2일차 메인</a>
+            <a href="#hqBooth" onclick="toggleMenu()">총괄부스</a>
+            <a href="#photoBoothSection" onclick="toggleMenu()">인생네컷</a>
+            <a href="#foodTruckSection" onclick="toggleMenu()">푸드트럭</a>
+            <a href="#bosaengBoothSection" onclick="toggleMenu()">보생대 부스</a>
+            <a href="#majorBoothSection" onclick="toggleMenu()">학과 부스</a>
+            <a href="#externalBoothSection" onclick="toggleMenu()">외부 및 자치 부스</a>
+        </div>
+    </div>
+
+    <!-- 타임테이블 -->
+    <div class="menu-item-group">
+        <a href="#timetableSection" class="menu-link" onclick="toggleMenu()">타임테이블</a>
+    </div>
+
+    <!-- 지도 및 오시는 길 -->
+    <div class="menu-item-group">
+        <a href="#map" class="menu-link" onclick="toggleMenu()">축제 배치도 &amp; 오시는 길</a>
+    </div>
+
+    <!-- 학생회 인스타그램 -->
+    <div class="menu-item-group">
+        <a href="https://www.instagram.com/knut_seohwa/" target="_blank" class="menu-link" onclick="toggleMenu()">학생회 인스타그램</a>
+    </div>
+
+    <!-- Q&A -->
+    <div class="menu-item-group">
+        <a href="#qa" class="menu-link" onclick="toggleMenu()">Q&amp;A</a>
+    </div>
+</div>
+
+<!-- 최상단 고정 햄버거 바 버튼 -->
+<nav>
+    <div class="nav-inner container">
+        <a href="#" class="nav-logo">PHANTASIA</a>
+        <button class="hamburger-btn" onclick="toggleMenu()">
+            <span>≡ MENU</span>
+        </button>
+    </div>
+</nav>
+
+<!-- 첫 화면 -->
+<header class="hero">
+    <div class="hero-content">
+        <div class="festival-small">2026 CHEONGA FESTIVAL</div>
+        <img src="제목을 입력해주세요. (26).jpg" alt="Phantasia" class="hero-title-img">
+        <div class="date">2026. 10. 06. ~ 07.</div>
+        <div class="place">국립한국교통대학교 증평캠퍼스</div>
+        <div class="host">
+            주최·주관<br>
+            <strong>15대 보건생명대학 학생회 서/화(緖花)</strong>
+        </div>
+        <div class="scroll">SCROLL ↓</div>
+    </div>
+</header>
+
+<!-- 1일 차 -->
+<section id="day1">
+    <div class="container">
+        <div class="eyebrow">DAY 01 · 2026. 10. 06.</div>
+        <h2>첫 번째 밤</h2>
+        <p class="section-description">청아제의 첫날, 총괄본부 운영 안내 및 야시장 프로그램을 확인해 보세요.</p>
+
+        <div class="day-box">
+            <div class="day-header">
+                <div class="day-number">DAY 01</div>
+                <h3>10월 6일</h3>
+                <p>총괄본부 안내 · 학과별 야시장 · 보생대 부스 · 길거리 노래방</p>
+            </div>
+
+            <div class="program hq-highlight">
+                <div class="program-number">★ HQ GUIDE</div>
+                <div>
+                    <h4>📍 총괄본부 &amp; 안내데스크</h4>
+                    <div class="sub-info-box">
+                        <p><strong>🕒 테이블 존 이용</strong> : 총괄본부 방문 후 이용대장 작성 및 테이블 이용권(번호) 수령 후 사용</p>
+                        <p><strong>🛠️ 비품 및 대여 물품</strong> : 젓가락, 수저, 물티슈, 구급상자 등 축제 필수 물품 완비!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="program">
+                <div class="program-number">PROGRAM 02</div>
+                <div>
+                    <h4>보생대 부스 이벤트</h4>
+                    <div class="sub-info-box"><p><strong>🎯 돌려돌려 돌림판</strong> : 룰렛 돌리고 랜덤 상품 받기!</p></div>
+                </div>
+            </div>
+
+            <div class="program">
+                <div class="program-number">PROGRAM 03</div>
+                <div>
+                    <h4>길거리 노래방</h4>
+                    <div class="sub-info-box"><p><strong>🎤 운영 안내</strong> : 원하는 곡 신청 후 자유롭게 노래 부르기 ♬</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 야시장 -->
+<section id="market">
+    <div class="container">
+        <div class="eyebrow">NIGHT MARKET</div>
+        <h2>학과별 야시장</h2>
+        <p class="section-description">각 학과에서 준비한 야시장 메뉴와 가격을 확인해보세요.</p>
+
+        <div class="market-grid">
+            <!-- 간호학과 -->
+            <div class="market-card">
+                <div class="department">간호학과</div>
+                <h3>별자리 오이쉬~</h3>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <span>컵 물/비빔냉면</span>
+                        <span class="price">4,000원</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>아이스 호떡</span>
+                        <span class="price">3,000원</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>레몬 에이드</span>
+                        <span class="price">1,500원</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 물리치료학과 -->
+            <div class="market-card">
+                <div class="department">물리치료학과</div>
+                <h3>물치네 만두</h3>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <span>만두 (갈비/김치)</span>
+                        <span class="price">5,000원</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>어묵</span>
+                        <span class="price">700원</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>에이드 (청포도/자몽)</span>
+                        <span class="price">2,500원</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>세트</span>
+                        <span class="price">6,500원</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 응급구조학과 -->
+            <div class="market-card">
+                <div class="department">응급구조학과</div>
+                <h3>RED ZONE</h3>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <span>떡볶이</span>
+                        <span class="price">4,000원</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>주먹밥</span>
+                        <span class="price">2,000원</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>떡볶이 + 주먹밥</span>
+                        <span class="price">5,000원</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 식품공학과 -->
+            <div class="market-card">
+                <div class="department">식품공학과</div>
+                <h3>너와 나, 한 점의 추억</h3>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <span>연어초밥 (8p)</span>
+                        <span class="price">9,900원</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 식품영양학과 -->
+            <div class="market-card">
+                <div class="department">식품영양학과</div>
+                <h3>꼬치 피는 청춘</h3>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <span>닭꼬치 1인분 (2꼬치)</span>
+                        <span class="price">5,000원</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>염통꼬치 1인분 (5꼬치)</span>
+                        <span class="price">6,000원</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 생명공학과 -->
+            <div class="market-card">
+                <div class="department">생명공학과</div>
+                <h3>달빛 아래 전 한 장</h3>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <span>전 (단품)</span>
+                        <span class="price">5,900원</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>막걸리 사이다 (1잔)</span>
+                        <span class="price">2,500원</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>전 + 막사 (2잔)</span>
+                        <span class="price">10,000원</span>
+                    </div>
+                </div>
+            </div>
+
+<!-- 유아특수교육학과 -->
+            <div class="market-card">
+                <div class="department">유아특수교육학과</div>
+                <h3>핫도그</h3>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <span>뉴욕 핫도그</span>
+                        <span class="price">6,000원</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 학생회 -->
+            <div class="market-card">
+                <div class="department">15대 보건생명대학 학생회 서/화(緖花)</div>
+                <h3>보생대</h3>
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <span>불닭 오믈렛 (단품)</span>
+                        <span class="price">8,500원</span>
+                    </div>
+                    <div class="menu-item">
+                        <span>불닭 오믈렛 + 탄산음료</span>
+                        <span class="price">8,900원</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 귀신의 집 -->
+<section id="ghost">
+    <div class="container">
+        <div class="eyebrow">NIGHT PROGRAM</div>
+        <h2>귀신의 집</h2>
+        <p class="section-description">첫 번째 밤을 위한 오싹하고 스릴 넘치는 특별한 야간 콘텐츠입니다.</p>
+
+        <div class="ghost-box">
+            <div class="ghost-header">
+                <div class="ghost-number">👻 HORROR HOUSE GUIDE</div>
+                <h3>귀신의 집 이용 안내</h3>
+                <p>원활한 체험과 안전을 위해 아래 수칙을 반드시 확인해 주세요.</p>
+            </div>
+            <div class="ghost-content">
+                <div>
+                    <div class="ghost-section-title">📌 안내사항</div>
+                    <div class="ghost-sub-box">
+                        <p>• <strong>예약 시간 10분 전</strong> 도착</p>
+                        <p>• 핸드폰 및 카메라 <strong>보관 필수</strong></p>
+                        <p>• 팀 구성 : <strong>최대 3명</strong></p>
+                        <p>• 팀당 <strong>15분</strong> 탈출 제한</p>
+                        <p>• 힌트 <strong>무제한 제공</strong> (단, 2개 미만 사용 시 성공 판정)</p>
+                        <p>• 자물쇠 사용법은 입장 때 영상으로 설명해 드립니다.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="ghost-section-title">⚠️ 주의사항</div>
+                    <div class="ghost-sub-box">
+                        <p>• <strong>뛰기 금지</strong></p>
+                        <p>• 소품·장치 억지로 열지 않기</p>
+                        <p>• 폐쇄공포증·음주자·심신미약자 <strong>이용 제한 가능</strong></p>
+                        <p>• 체험 중 진행한 내용은 <strong>비밀 유지</strong></p>
+                        <p>• 귀신 및 인테리어 <strong>터치 금지</strong></p>
+                        <p>• <strong>욕설 및 비속어 금지</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2일 차 메인 -->
+<section id="day2">
+    <div class="container">
+        <div class="eyebrow">DAY 02 · 2026. 10. 07.</div>
+        <h2>두 번째 날</h2>
+        <p class="section-description">청아제의 두 번째 날, 다채로운 주간 부스와 푸드트럭 프로그램을 즐겨보세요.</p>
+
+        <div class="day-box">
+            <div class="day-header">
+                <div class="day-number">DAY 02</div>
+                <h3>10월 7일</h3>
+                <p>총괄부스 · 인생네컷 · 푸드트럭 · 보생대부스 · 학과부스 · 외부자치부스</p>
+            </div>
+
+            <!-- 프로그램 1: 총괄부스 -->
+            <div class="program hq-highlight" id="hqBooth">
+                <div class="program-number">★ HQ BOOTH</div>
+                <div>
+                    <h4 style="font-size: 24px; color: #fff4d4;">✨ 총괄부스 &amp; 별자리를 채워보세요!</h4>
+                    <div class="sub-info-box">
+                        <p>• <strong>참여 내용</strong> : 8개 부스 참여하고 별자리를 채워보세요!</p>
+                        <p>• <strong>시간</strong> : 13:00 ~ 17:30 | <strong>장소</strong> : 생명관 앞</p>
+                    </div>
+                    <!-- 팜플렛 이미지 -->
+                    <div style="margin-top: 25px;">
+                        <p style="font-size: 13px; color: #e2c08c; margin-bottom: 12px; font-weight: bold; text-align: center;">✨ 팜플렛 앞·뒷면 (클릭하면 확대됩니다)</p>
+                        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 240px; max-width: 280px; text-align: center;">
+                                <p style="font-size: 11px; color: #aeb6c9; margin-bottom: 6px;">[ 앞장 ]</p>
+                                <img src="10.jpg" alt="리플렛 앞장" onclick="openModal(this.src)" style="width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15); cursor: pointer;">
+                            </div>
+                            <div style="flex: 1; min-width: 240px; max-width: 280px; text-align: center;">
+                                <p style="font-size: 11px; color: #aeb6c9; margin-bottom: 6px;">[ 뒷장 ]</p>
+                                <img src="13.jpg" alt="리플렛 뒷장" onclick="openModal(this.src)" style="width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15); cursor: pointer;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 프로그램 2: 인생네컷 -->
+            <div class="program">
+                <div class="program-number">PROGRAM 02</div>
+                <div>
+                    <h4 style="font-size: 21px; color: #fff4d4;">📸 인생네컷 부스</h4>
+                    <div class="sub-info-box">
+                        <p>• 청아제 기념 특별 프레임 운영 (아래 상세 안내 참고)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 프로그램 3: 푸드트럭 -->
+            <div class="program">
+                <div class="program-number">PROGRAM 03</div>
+                <div>
+                    <h4 style="font-size: 21px; color: #fff4d4;">🚚 푸드트럭 존</h4>
+                    <div class="sub-info-box">
+                        <p>• 다양한 먹거리가 가득한 푸드트럭 운영 (아래 상세 메뉴 참고)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 프로그램 4: 보생대 부스 -->
+            <div class="program">
+                <div class="program-number">PROGRAM 04</div>
+                <div>
+                    <h4 style="font-size: 21px; color: #fff4d4;">🏫 보생대 부스</h4>
+                    <div class="sub-info-box">
+                        <p>• 보건생명대학 학생회에서 준비한 특별한 체험 프로그램 (아래 상세 내용 참고)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 프로그램 5: 학과 부스 -->
+            <div class="program">
+                <div class="program-number">PROGRAM 05</div>
+                <div>
+                    <h4 style="font-size: 21px; color: #fff4d4;">🌟 학과 부스</h4>
+                    <div class="sub-info-box">
+                        <p>• 각 학과의 특색을 살린 다채로운 체험 및 전시 부스 운영 (아래 상세 내용 참고)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 프로그램 6: 외부 및 자치 부스 -->
+            <div class="program">
+                <div class="program-number">PROGRAM 06</div>
+                <div>
+                    <h4 style="font-size: 21px; color: #fff4d4;">🤝 외부 및 자치 부스</h4>
+                    <div class="sub-info-box">
+                        <p>• 캠퍼스를 더욱 풍성하게 만들어 줄 외부 기관 및 자치기구 부스 참여 (아래 상세 내용 참고)</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- [인생네컷 독립 상세 섹션] -->
+<section id="photoBoothSection">
+    <div class="container">
+        <div class="eyebrow">PHOTO BOOTH GUIDE</div>
+        <h2>인생네컷</h2>
+        <p class="section-description">청아제 기념 특별 프레임으로 소중한 추억을 남겨보세요.</p>
+
+        <div class="day-box" style="padding: 35px;">
+            <div style="background: rgba(226, 192, 140, 0.08); border: 1px solid rgba(226, 192, 140, 0.3); border-radius: 20px; padding: 25px; margin-bottom: 30px;">
+                <p style="font-size: 18px; color: #fff4d4; margin-bottom: 12px; font-weight: bold;">✨ 1+1 (2장 가격) 안내</p>
+                <p style="font-size: 15px; color: #f5f6ff; margin: 6px 0;">• <strong>큰 프레임</strong> : 3,000원</p>
+                <p style="font-size: 15px; color: #f5f6ff; margin: 6px 0;">• <strong>작은 프레임</strong> : 2,000원</p>
+                
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.15); margin: 18px 0;">
+                
+                <p style="font-size: 14px; color: #e2c08c; margin-bottom: 4px; font-weight: bold;">💳 입금 계좌번호</p>
+                <p style="font-size: 18px; font-weight: bold; color: #fff;">카카오뱅크 3333220980751 김*연</p>
+            </div>
+
+            <div>
+                <p style="font-size: 14px; color: #e2c08c; margin-bottom: 15px; font-weight: bold; text-align: center;">✨ 청아제 특별 프레임 미리보기 (클릭하면 확대됩니다)</p>
+                <div style="display: flex; gap: 15px; justify-content: center; overflow-x: auto; padding-bottom: 10px;">
+                    <div style="flex: 0 0 140px; text-align: center;">
+                        <p style="font-size: 12px; color: #aeb6c9; margin-bottom: 6px;">[ 큰 프레임 1 ]</p>
+                        <img src="큰냥 (1).jpg" alt="큰 프레임 1" onclick="openModal(this.src)" style="width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); cursor: pointer;">
+                    </div>
+                    <div style="flex: 0 0 140px; text-align: center;">
+                        <p style="font-size: 12px; color: #aeb6c9; margin-bottom: 6px;">[ 큰 프레임 2 ]</p>
+                        <img src="큰냥 (2).jpg" alt="큰 프레임 2" onclick="openModal(this.src)" style="width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); cursor: pointer;">
+                    </div>
+                    <div style="flex: 0 0 140px; text-align: center;">
+                        <p style="font-size: 12px; color: #aeb6c9; margin-bottom: 6px;">[ 작은 프레임 3 ]</p>
+                        <img src="큰냥 (3).jpg" alt="작은 프레임 3" onclick="openModal(this.src)" style="width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); cursor: pointer;">
+                    </div>
+                    <div style="flex: 0 0 140px; text-align: center;">
+                        <p style="font-size: 12px; color: #aeb6c9; margin-bottom: 6px;">[ 작은 프레임 4 ]</p>
+                        <img src="큰냥 (4).jpg" alt="작은 프레임 4" onclick="openModal(this.src)" style="width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); cursor: pointer;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- [푸드트럭 독립 상세 섹션] -->
+<section id="foodTruckSection">
+    <div class="container">
+        <div class="eyebrow">FOOD TRUCK GUIDE</div>
+        <h2>푸드트럭</h2>
+        <p class="section-description">청아제를 더욱 배부르고 맛있게 만들어 줄 푸드트럭 메뉴와 가격을 확인해보세요.</p>
+
+        <div class="market-grid">
+            <div class="market-card">
+                <div class="department">푸드트럭</div>
+                <h3>이동묵국수</h3>
+                <div class="menu-list" style="border-top: 1px solid rgba(255,255,255,0.12); margin-top: 12px;">
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08); font-size:13px;"><span>잔치국수 (온/냉)</span><span class="price" style="color:#eee9ca; font-weight:600;">7,000원</span></div>
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08); font-size:13px;"><span>묵사발 (온/냉)</span><span class="price" style="color:#eee9ca; font-weight:600;">8,000원</span></div>
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; font-size:13px;"><span>묵무침</span><span class="price" style="color:#eee9ca; font-weight:600;">10,000원</span></div>
+                </div>
+            </div>
+
+            <div class="market-card">
+                <div class="department">푸드트럭</div>
+                <h3>흥하리푸드</h3>
+                <div class="menu-list" style="border-top: 1px solid rgba(255,255,255,0.12); margin-top: 12px;">
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08); font-size:13px;"><span>다주새우</span><span class="price" style="color:#eee9ca; font-weight:600;">18,000원</span></div>
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08); font-size:13px;"><span>칠리새우</span><span class="price" style="color:#eee9ca; font-weight:600;">10,000원</span></div>
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; font-size:13px;"><span>레몬크림새우</span><span class="price" style="color:#eee9ca; font-weight:600;">10,000원</span></div>
+                </div>
+            </div>
+
+            <div class="market-card">
+                <div class="department">푸드트럭</div>
+                <h3>알럽푸드</h3>
+                <div class="menu-list" style="border-top: 1px solid rgba(255,255,255,0.12); margin-top: 12px;">
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08); font-size:13px;"><span>소고기초밥 (8p)</span><span class="price" style="color:#eee9ca; font-weight:600;">10,000원</span></div>
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; font-size:13px;"><span>새우초밥 (8p)</span><span class="price" style="color:#eee9ca; font-weight:600;">10,000원</span></div>
+                </div>
+            </div>
+
+            <div class="market-card">
+                <div class="department">푸드트럭</div>
+                <h3>시크릿</h3>
+                <div class="menu-list" style="border-top: 1px solid rgba(255,255,255,0.12); margin-top: 12px;">
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08); font-size:13px;"><span>츄러스</span><span class="price" style="color:#eee9ca; font-weight:600;">4,000원</span></div>
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08); font-size:13px;"><span>아이스크림</span><span class="price" style="color:#eee9ca; font-weight:600;">6,000원</span></div>
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; font-size:13px;"><span>아츄</span><span class="price" style="color:#eee9ca; font-weight:600;">7,000원</span></div>
+                </div>
+            </div>
+
+            <div class="market-card" style="grid-column: 1 / -1;">
+                <div class="department">푸드트럭</div>
+                <h3>더마미닭강정</h3>
+                <p style="font-size: 13px; color: #aeb6c9; margin: 6px 0 12px;">선택 맛 : 순한맛 / 매운맛 / 간장맛 / 후라이드</p>
+                <div class="menu-list" style="border-top: 1px solid rgba(255,255,255,0.12); margin-top: 12px;">
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08); font-size:13px;"><span>소</span><span class="price" style="color:#eee9ca; font-weight:600;">10,000원</span></div>
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08); font-size:13px;"><span>중</span><span class="price" style="color:#eee9ca; font-weight:600;">15,000원</span></div>
+                    <div class="menu-item" style="display:flex; justify-content:space-between; padding:10px 0; font-size:13px;"><span>대</span><span class="price" style="color:#eee9ca; font-weight:600;">20,000원</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- [보생대 부스 독립 상세 섹션] -->
+<section id="bosaengBoothSection">
+    <div class="container">
+        <div class="eyebrow">HEALTH &amp; LIFE BOOTH</div>
+        <h2>보생대 부스</h2>
+        <p class="section-description">보건생명대학 학생회에서 준비한 특별한 체험 프로그램과 이벤트에 참여해보세요.</p>
+
+        <div class="market-grid">
+            <div class="market-card">
+                <div class="department">보생대 체험 프로그램</div>
+                <h3>인연뽑기 💕</h3>
+                <p>오늘 나에게 찾아올 특별한 인연은 누구~?<br>운명처럼 찾아오는 나만의 인연을 뽑기</p>
+            </div>
+            <div class="market-card">
+                <div class="department">보생대 체험 프로그램</div>
+                <h3>내 마음에 클릭 🧩</h3>
+                <p>원하는 색과 디자인으로~<br>나만의 특별한 클릭커 만들기!</p>
+            </div>
+            <div class="market-card">
+                <div class="department">보생대 체험 프로그램</div>
+                <h3>모루네 공방 ⚒️</h3>
+                <p>알록달록한 모루를 이용해 원하는 모양으로 꾸미고<br>작고 귀여운 모루인형 만들기!</p>
+            </div>
+            <div class="market-card">
+                <div class="department">보생대 체험 프로그램</div>
+                <h3>끈끈이 게임 ✋</h3>
+                <p>끈끈이로 종이를 잡고,<br>종이에서 나오는 게임에서 승리시 상품!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- [학과 부스 독립 상세 섹션] -->
+<section id="majorBoothSection">
+    <div class="container">
+        <div class="eyebrow">DEPARTMENT BOOTH GUIDE</div>
+        <h2>학과 부스</h2>
+        <p class="section-description">각 학과의 개성과 매력이 넘쳐나는 다채로운 체험 부스들을 만나보세요.</p>
+
+        <div class="market-grid">
+            <div class="market-card">
+                <div class="department">간호학과</div>
+                <h3>🧭 간호학과 🍀</h3>
+                <p><strong>청춘에~서 누가 돌아왔게~?</strong></p>
+                <p>⭐ <strong>돌 워리 미 해피</strong> : 준비된 도안을 참고하여 워리스톤 제작!</p>
+                <p>⭐ <strong>아프니까 청춘이다</strong><br>- 지압판 위에서 줄넘기 진행<br>- 학생회와 대결 + 기록 측정으로 상품 제공</p>
+            </div>
+
+            <div class="market-card">
+                <div class="department">물리치료학과</div>
+                <h3>☁️ 물리치료학과 ☁️</h3>
+                <p>⭐ <strong>증평랜드</strong><br>- 과일 잭팟 &amp; 기억력 테스트</p>
+            </div>
+
+            <div class="market-card">
+                <div class="department">응급구조학과</div>
+                <h3>🌗 응급구조학과 🌕</h3>
+                <p>⭐ <strong>재난탈출: 미션 임파서블</strong><br>- 첩보 영화의 '레이저 피하기' 게임을 재난 현장 상황에 맞게 재해석한 체험형 게임! 잔해와 장애물을 피해 제한 시간 내 안전 탈출!</p>
+            </div>
+
+            <div class="market-card">
+                <div class="department">식품공학과</div>
+                <h3>⚡️ 식품공학과 ⚡️</h3>
+                <p>⭐ <strong>왁뿌볼에 진심인 사람들</strong><br>- 스트레스가 사르르 풀리는 왁뿌볼 만들기!</p>
+            </div>
+
+            <div class="market-card">
+                <div class="department">식품영양학과</div>
+                <h3>🐯 식품영양학과 🐯</h3>
+                <p>⭐ <strong>청춘은 영양이 필요해~</strong><br>- 식품·영양과 관련된 다양한 게임 미션 수행!<br>- 성공한 참가자에게 랜덤 간식 및 카페 쿠폰 증정!</p>
+            </div>
+
+            <div class="market-card">
+                <div class="department">생명공학과</div>
+                <h3>✨ 생명공학과 ✨</h3>
+                <p>⭐ <strong>운세 뽑기</strong><br>- 연애운, 금전운, 학업운을 점쳐보세요!</p>
+            </div>
+
+            <div class="market-card" style="grid-column: 1 / -1;">
+                <div class="department">유아특수교육학과</div>
+                <h3>🌈 유아특수교육학과 💫</h3>
+                <p>⭐ <strong>향기나는 아로마모빌 만들기</strong> : 원하는 색상과 향의 비누로 향기나는 아로마모빌 만들기!</p>
+                <p>⭐ <strong>던져던져! 슛슛슛!</strong> : 저시력 안경 착용 후 과녁판에 공을 던져 간식 획득!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- [외부 및 자치 부스 독립 상세 섹션] -->
+<section id="externalBoothSection">
+    <div class="container">
+        <div class="eyebrow">EXTERNAL &amp; STUDENT BOOTH</div>
+        <h2>외부 및 자치 부스</h2>
+        <p class="section-description">축제를 더욱 풍성하게 만들어 줄 학교 자치기구 및 외부 기관 부스들을 만나보세요.</p>
+
+        <div style="margin-top: 35px;">
+            <h3 style="font-size: 24px; color: #e2c08c; margin-bottom: 20px; border-left: 4px solid #e2c08c; padding-left: 12px;">📌 자치부스</h3>
+            <div class="market-grid" style="margin-top: 0;">
+                <div class="market-card">
+                    <div class="department">총학생회</div>
+                    <h3>🩵 총학생회 🩵</h3>
+                    <p>⭐ <strong>우리랑 말랑해 ♥</strong><br>- 고무공 안에 파츠 &amp; 비즈 &amp; 슬라임을 넣어 나만의 말랑이 만들기!</p>
+                </div>
+                <div class="market-card">
+                    <div class="department">학생권익위원회</div>
+                    <h3>🍂 학생권익위원회 🍂</h3>
+                    <p>⭐ <strong>나만의 가을 꾸미기</strong><br>- 가을 느낌이 나는 폰 스티커 꾸미기를 통해 나만의 폰 케이스를 제작!</p>
+                </div>
+                <div class="market-card" style="grid-column: 1 / -1;">
+                    <div class="department">총동아리연합회</div>
+                    <h3>🧭 총동아리연합회 🧭</h3>
+                    <p>⭐ <strong>여정을 잇다</strong><br>- 비즈 팔찌 만들기</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 60px;">
+            <h3 style="font-size: 24px; color: #e2c08c; margin-bottom: 20px; border-left: 4px solid #e2c08c; padding-left: 12px;">🏛️ 외부 부스</h3>
+            <div class="market-grid" style="margin-top: 0;">
+                <div class="market-card" style="grid-column: 1 / -1; background: rgba(226, 192, 140, 0.08); border-color: rgba(226, 192, 140, 0.3);">
+                    <div class="department">WISE 사업단</div>
+                    <h3>✨ WISE 사업단</h3>
+                    <p>⭐ <strong>첫 인상 프리패스 : 나를 빛내는 취업 컬러</strong><br>- 나의 퍼스널 컬러를 찾아 면접룩, 이력서 사진, 프로필까지 완벽하게 준비!<br>- 취업 성공의 첫 단추, 퍼스널 컬러 진단으로 시작!</p>
+                </div>
+                <div class="market-card"><div class="department">외부 기관</div><h3>🎖️ 육군본부</h3></div>
+                <div class="market-card"><div class="department">학교 기관</div><h3>🤝 인권센터</h3></div>
+                <div class="market-card"><div class="department">학교 기관</div><h3>💡 창업지원센터</h3></div>
+                <div class="market-card"><div class="department">관공서</div><h3>🚨 경찰청</h3></div>
+                <div class="market-card"><div class="department">지자체</div><h3>🏙️ 증평미래전략과</h3></div>
+                <div class="market-card"><div class="department">학교 기관</div><h3>💼 취업성공지원과</h3></div>
+                <div class="market-card"><div class="department">지자체</div><h3>🏢 증평군일자리종합지원센터</h3></div>
+                <div class="market-card"><div class="department">지자체</div><h3>🌱 증평군정신건강복지센터</h3></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 타임테이블 독립 상세 섹션 -->
+<section id="timetableSection">
+    <div class="container">
+        <div class="eyebrow">FESTIVAL SCHEDULE</div>
+        <h2>타임테이블</h2>
+        <p class="section-description">청아제 기간 동안 진행되는 일자와 무대별 상세 일정을 확인해 보세요.</p>
+
+        <div class="timetable-tabs">
+            <button class="tab-btn active" onclick="switchTab('day1Tab', this)">1일차 일정</button>
+            <button class="tab-btn" onclick="switchTab('day2Tab', this)">2일차 일정</button>
+            <button class="tab-btn" onclick="switchTab('stageTab', this)">무대 프로그램</button>
+        </div>
+
+        <div id="day1Tab" class="timetable-content-panel active">
+            <div class="day-box">
+                <div class="day-header">
+                    <div class="day-number">DAY 01 SCHEDULE</div>
+                    <h3>10월 6일 (화) 일정</h3>
+                </div>
+                <div class="program hq-highlight">
+                    <div class="program-number">17:00 ~</div>
+                    <div>
+                        <h4>✨ 보생대 부스 &amp; 총괄부스 시작</h4>
+                        <div class="sub-info-box"><p>• 축제 첫날의 시작을 알리는 보생대 체험 부스 및 총괄본부 운영 개시</p></div>
+                    </div>
+                </div>
+                <div class="program">
+                    <div class="program-number">18:00 ~</div>
+                    <div>
+                        <h4>🌙 야시장 &amp; 거리의 노래방 시작</h4>
+                        <div class="sub-info-box"><p>• 각 학과별 맛있는 야시장 먹거리와 신나는 거리의 노래방 개장</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="day2Tab" class="timetable-content-panel">
+            <div class="day-box">
+                <div class="day-header">
+                    <div class="day-number">DAY 02 SCHEDULE</div>
+                    <h3>10월 7일 (수) 일정</h3>
+                </div>
+                <div class="program">
+                    <div class="program-number">13:00 - 17:30</div>
+                    <div><h4>부스 및 팜플렛 수령</h4><div class="sub-info-box"><p>• 장소 : 생명관 앞</p></div></div>
+                </div>
+                <div class="program">
+                    <div class="program-number">17:00</div>
+                    <div><h4>학생회비 납부자 우선 입장</h4><div class="sub-info-box"><p>• 장소 : 생명관 옆</p></div></div>
+                </div>
+                <div class="program">
+                    <div class="program-number">17:30</div>
+                    <div><h4>재학생 &amp; 외부인 입장</h4><div class="sub-info-box"><p>• 장소 : 생명관 옆</p></div></div>
+                </div>
+                <div class="program hq-highlight">
+                    <div class="program-number">18:00 - 22:30</div>
+                    <div><h4>무대 프로그램</h4><div class="sub-info-box"><p>• 화려한 초청 공연과 가요제가 진행되는 메인 스테이지</p></div></div>
+                </div>
+                <div class="program">
+                    <div class="program-number">13:00 - 22:00</div>
+                    <div><h4>푸드트럭 존 운영</h4><div class="sub-info-box"><p>• 맛있는 푸드트럭 먹거리 상시 운영</p></div></div>
+                </div>
+                <div class="program">
+                    <div class="program-number">13:00 - 22:00</div>
+                    <div><h4>인생네컷 부스 운영</h4><div class="sub-info-box"><p>• 특별 프레임 기념 사진 촬영</p></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="stageTab" class="timetable-content-panel">
+            <div class="day-box">
+                <div class="day-header">
+                    <div class="day-number">STAGE TIMETABLE</div>
+                    <h3>무대 프로그램 상세 일정</h3>
+                </div>
+                <div class="program"><div class="program-number">18:00 - 18:20</div><div><h4>개회식</h4></div></div>
+                <div class="program"><div class="program-number">18:20 - 18:25</div><div><h4>MC 인사 및 행사 안내</h4></div></div>
+                <div class="program">
+    <div class="program-number">18:25 - 18:45</div>
+    <div>
+        <h4>동아리 MUSE 공연</h4>
+        <div class="sub-info-box">
+            <p>• 하현상 - 등대</p>
+            <p>• SPYAIR - 사무라이 하트 (Samurai Heart)</p>
+            <p>• 유다빈밴드 - 항해</p>
+        </div>
+    </div>
+</div>
+    <div class="program"><div class="program-number">18:45 - 19:05</div>
+    <div>
+       <h4>동아리 체리쉬 공연</h4>
+       <div class="sub-info-box">
+            <p>• 하현상 - 등대</p>
+            <p>• SPYAIR - 사무라이 하트 (Samurai Heart)</p>
+            <p>• 유다빈밴드 - 항해</p>
+            <p>• 이효리 - 10 Minutes &amp; Anymotion</p>
+            <p>• Lah Pat - Rodeo</p>
+            <p>• Don Miguelo - Y Que Fue?</p>
+            <p>• KISS OF LIFE - Who is she</p>
+            <p>• 코르티스 (CORTIS) - REDRED</p>
+            <p>• 하츠투하츠 (Hearts2Hearts) - FOCUS</p>
+            <p>• NCT U - Baggy Jeans</p>
+            <p>• aespa - LEMONADE</p>
+            <p>• TWS - 첫 만남은 계획대로 되지 않아</p>
+        </div>
+    </div>
+</div>
+                <div class="program"><div class="program-number">19:05 - 19:35</div><div><h4>가요제 본선 &amp; 소개</h4></div></div>
+                <div class="program"><div class="program-number">19:35 - 19:50</div><div><h4>가요제 결승 &amp; 소개</h4></div></div>
+                <div class="program"><div class="program-number">19:50 - 20:00</div><div><h4>시상식 &amp; 기념촬영</h4></div></div>
+                <div class="program"><div class="program-number">20:00 - 20:25</div><div><h4>라쿠네라마</h4></div></div>
+                <div class="program"><div class="program-number">20:25 - 20:55</div><div><h4>유령서점</h4></div></div>
+                <div class="program"><div class="program-number">20:55 - 21:25</div><div><h4>캐치더영</h4></div></div>
+                <div class="program hq-highlight"><div class="program-number">21:25 - 21:35</div><div><h4>학생회 인사 &amp; 불꽃 공연</h4></div></div>
+                <div class="program"><div class="program-number">21:35 - 22:00</div><div><h4>이서연(Y:SY)</h4></div></div>
+                <div class="program"><div class="program-number">22:00 - 22:35</div><div><h4>래원</h4></div></div>
+                <div class="program"><div class="program-number">22:35 ~</div><div><h4>폐회식 &amp; 마무리</h4></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- [축제 배치도 & 오시는 길 통합 섹션 (1일차 / 2일차 / 무대 / 오시는 길 탭)] -->
+<section id="map">
+    <div class="container">
+        <div class="eyebrow">LOCATION &amp; GUIDE</div>
+        <h2>축제 배치도 &amp; 오시는 길</h2>
+        <p class="section-description">일자별 행사장 배치도와 국립한국교통대학교 증평캠퍼스로 오시는 길을 확인하세요.</p>
+
+        <!-- 4개 탭 버튼 -->
+        <div class="map-tabs">
+            <button class="map-tab-btn active" onclick="switchMapTab('mapDay1', this)">1일차 배치도</button>
+            <button class="map-tab-btn" onclick="switchMapTab('mapDay2', this)">2일차 배치도</button>
+            <button class="map-tab-btn" onclick="switchMapTab('mapStage', this)">무대 배치도</button>
+            <button class="map-tab-btn" onclick="switchMapTab('mapRoute', this)">오시는 길</button>
+        </div>
+
+        <!-- 1일차 배치도 패널 -->
+        <div id="mapDay1" class="map-content-panel active">
+            <div class="map-box">
+                <img src="제목을 입력해주세요. (30).jpg" alt="1일차 축제 배치도" class="map-image" onclick="openModal(this.src)">
+                <div class="legend-list">
+                    <h3 style="color:#fff4d4; font-size:16px; margin-bottom:5px;">1일차 안내 - 동아리방 앞 도로</h3>
+                    <div>⭐ - 부스</div>
+                    <div>🧡 - 길거리 노래방</div>
+                    <div>🗑️ - CLEAN ZONE</div>
+                    <div>🚫 - 차량 통제 구역</div>
+                    <div>👻 - 귀신의 집</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2일차 배치도 패널 (부스 팜플렛.jpg) -->
+        <div id="mapDay2" class="map-content-panel">
+            <div class="map-box">
+                <img src="부스 팜플렛.jpg" alt="2일차 부스 배치도" class="map-image" onclick="openModal(this.src)">
+                <div class="legend-list">
+                    <h3 style="color:#fff4d4; font-size:16px; margin-bottom:5px;">2일차 부스 안내 - 생명관 앞</h3>
+                    <div>🟣 - 외부 부스</div>
+                    <div>🔵 - 자치기구 부스</div>
+                    <div>⭐ - 학과 부스</div>
+                    <div>⭐ - 보생대 부스</div>
+                    <div>🚚 - 푸드트럭</div>
+                    <div>📸 - 인생네컷</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 무대 배치도 패널 (부스 팜플렛 (2).jpg) -->
+        <div id="mapStage" class="map-content-panel">
+            <div class="map-box">
+                <img src="부스 팜플렛 (2).jpg" alt="무대 배치도" class="map-image" onclick="openModal(this.src)">
+                <div class="legend-list">
+                    <h3 style="color:#fff4d4; font-size:16px; margin-bottom:5px;">무대 안내 - 야외음악당</h3>
+                    <div>⭐ - 무대입장</div>
+                    <div>🗑️ - 쓰레기통</div>
+                    <div>🚫 - 출입 통제 구역</div>
+                    <div>⬅️ - 입·퇴장 구역</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 오시는 길 패널 (출발지만 입력하여 길찾기 가능) -->
+        <div id="mapRoute" class="map-content-panel">
+            <div class="day-box" style="padding: 30px;">
+                <h3 style="font-size: 24px; color: #fff4d4; margin-bottom: 8px;">📍 국립한국교통대학교 증평캠퍼스</h3>
+                <p style="font-size: 14px; color: #abb4c8; line-height: 1.7;">
+                    충청북도 증평군 증평읍 대학로 61 (공학관 및 생명관 일대)<br>
+                    출발하시는 장소를 입력하고 원하는 지도 앱을 선택하시면 길찾기가 바로 연결됩니다!
+                </p>
+
+                <div class="route-box">
+                    <label style="font-size: 13px; color: #e2c08c; font-weight: bold;">🚗 출발지 입력</label>
+                    <div class="route-input-group">
+                        <input type="text" id="startPlaceInput" class="route-input" placeholder="예: 청주시청, 서울역, 오송역 등 출발지 입력">
+                    </div>
+                    
+                    <div class="route-btn-group">
+                        <button type="button" class="route-submit-btn" onclick="searchNavi('naver')" style="background: #03c75a; color: #fff;">네이버 지도 길찾기</button>
+                        <button type="button" class="route-submit-btn" onclick="searchNavi('kakao')" style="background: #fee500; color: #000;">카카오맵 길찾기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Q&A -->
+<section id="qa">
+    <div class="container">
+        <div class="eyebrow">HELP &amp; INFO</div>
+        <h2>Q&amp;A</h2>
+        <div class="qa-box">
+            <div class="qa-item">
+                <div class="qa-q">Q. 축제 참여 대상이 어떻게 되나요?</div>
+                <div class="qa-a">A. 국립한국교통대학교 재학생 및 교직원, 지역 주민 누구나 자유롭게 방문하여 즐기실 수 있습니다.</div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-q">Q. 학생회비 납부자와 미납부자 입장이 다르던데 어떻게 되나요?</div>
+                <div class="qa-a">A. 10월 7일(수) 2일차 저녁 무대 프로그램의 경우, 학생회비 납부자분들은 17:00부터 우선 입장이 가능하며 재학생 및 외부인 입장은 17:30부터 생명관 옆에서 진행됩니다.</div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-q">Q. 야시장이나 푸드트럭은 카드 결제가 가능한가요?</div>
+                <div class="qa-a">A. 부스 및 푸드트럭 운영 형태에 따라 계좌이체나 현금 결제가 주로 사용될 수 있으니, 원활한 이용을 위해 소액의 현금이나 이체 수단을 준비해 오시는 것을 권장합니다.</div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-q">Q. 귀신의 집이나 총괄부스 이벤트는 사전 예약이 필요한가요?</div>
+                <div class="qa-a">A. 귀신의 집은 사전 예약이 필요하며, 해당 이벤트는 마감 되었습니다. 현장 상황에 따라 총괄부스 빙고 및 부스 참여가 진행됩니다. 자세한 이용 방법은 생명관 앞 총괄본부 및 안내데스크를 방문해 주시기 바랍니다.</div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-q">Q. 쓰레기는 어디에 버려야 하나요?</div>
+                <div class="qa-a">A. 행사장 곳곳에 지정된 CLEAN ZONE(쓰레기통 구역)이 마련되어 있습니다. 깨끗하고 안전한 축제를 위해 분리수거를 철저히 지켜주시기 바랍니다.</div>
+            </div>
+            <div class="qa-item">
+                <div class="qa-q">Q. 통금시간은 몇 시인가요?</div>
+                <div class="qa-a">A. 행사 기간10. 06. ~ 07.까지는 통금 시간이 02:00로 조정됩니다.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 이미지 확대용 모달창 -->
+<div id="imageModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; padding: 20px;" onclick="closeModal()">
+    <img id="modalImage" src="" alt="확대 이미지" style="max-width: 90%; max-height: 90%; border-radius: 8px;">
+</div>
+
+<!-- 푸터 -->
+<footer>
+    <div class="container">
+        2026 CHEONGA FESTIVAL : PHANTASIA<br>
+        국립한국교통대학교 증평캠퍼스 보건생명대학
+    </div>
+</footer>
+
+<!-- 자바스크립트 -->
+<script>
+/* 페이지 로드 시 오늘 하루 안 보기 체크 확인 */
+    window.addEventListener('DOMContentLoaded', () => {
+        const popup = document.getElementById('popupOverlay');
+        const hideUntil = localStorage.getItem('hidePopupUntil');
+        if (hideUntil && new Date().getTime() < hideUntil) {
+            popup.style.display = 'none';
+        }
+    });
+
+    /* 팝업 닫기 및 오늘 하루 안 보기 처리 */
+    function closePopup() {
+        const popup = document.getElementById('popupOverlay');
+        const checkbox = document.getElementById('todayCloseCheck');
+
+        if (checkbox.checked) {
+            const expiresTime = new Date().getTime() + (24 * 60 * 60 * 1000);
+            localStorage.setItem('hidePopupUntil', expiresTime);
+        }
+
+        popup.style.display = 'none';
+    }
+    function toggleMenu() {
+        const panel = document.getElementById('sideMenuPanel');
+        const overlay = document.getElementById('menuOverlay');
+        panel.classList.toggle('open');
+        overlay.classList.toggle('open');
+    }
+
+    function toggleSubmenu(id) {
+        const submenu = document.getElementById(id);
+        submenu.classList.toggle('open');
+    }
+
+    /* 타임테이블 탭 전환 함수 */
+    function switchTab(tabId, btnElement) {
+        const panels = document.querySelectorAll('.timetable-content-panel');
+        panels.forEach(panel => panel.classList.remove('active'));
+
+        const buttons = document.querySelectorAll('.tab-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        document.getElementById(tabId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+
+    /* 배치도 & 오시는 길 탭 전환 함수 */
+    function switchMapTab(mapId, btnElement) {
+        const panels = document.querySelectorAll('.map-content-panel');
+        panels.forEach(panel => panel.classList.remove('active'));
+
+        const buttons = document.querySelectorAll('.map-tab-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        document.getElementById(mapId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+
+    /* 길찾기 연동 함수 */
+    function searchNavi(type) {
+        const startInput = document.getElementById('startPlaceInput').value.trim();
+        const destination = "국립한국교통대학교 증평캠퍼스";
+
+        if (!startInput) {
+            alert("출발지를 입력해주세요!");
+            document.getElementById('startPlaceInput').focus();
+            return;
+        }
+
+        if (type === 'naver') {
+            const url = `https://map.naver.com/v5/directions/-/` + encodeURIComponent(startInput) + `/` + encodeURIComponent(destination) + `/-/transit?c=14,14,-,,i`;
+            window.open(url, '_blank');
+        } else if (type === 'kakao') {
+            const url = `https://map.kakao.com/?sName=` + encodeURIComponent(startInput) + `&eName=` + encodeURIComponent(destination);
+            window.open(url, '_blank');
+        }
+    }
+
+    function openModal(src) {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        modalImg.src = src;
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
